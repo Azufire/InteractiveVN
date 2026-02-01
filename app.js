@@ -4,7 +4,7 @@ const port = process.env.PORT || 3001;
 
 app.get("/", (req, res) => res.type('html').send(html));
 
-const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+const server = app.listen(port, () => console.log(`App listening on port ${port}!`));
 
 server.keepAliveTimeout = 120 * 1000;
 server.headersTimeout = 120 * 1000;
@@ -13,14 +13,14 @@ const html = `
 <!DOCTYPE html>
 <html>
   <head>
-    <title>YIPPEE</title>
+    <title>Interactive VN HUD</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
       setTimeout(() => {
         confetti({
           particleCount: 100,
           spread: 70,
-          origin: { y: 0.6 },
+          origin: { y: 0.5 },
           disableForReducedMotion: true
         });
       }, 500);
@@ -36,16 +36,31 @@ const html = `
       html {
         font-family: neo-sans;
         font-weight: 700;
-        font-size: calc(62rem / 16);
+        font-size: 2rem;
+      }
+      h1 {
+      text-align: center;
       }
       body {
         background: white;
       }
-      section {
+      label {
+      	font-size: .5rem;
+      }
+      section.bar {
         border-radius: 1em;
         padding: 1em;
         position: absolute;
-        top: 50%;
+        top: 30%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%);
+      }
+      section.login {
+        border-radius: 1em;
+        padding: 1em;
+        position: absolute;
+        top: 40%;
         left: 50%;
         margin-right: -50%;
         transform: translate(-50%, -50%);
@@ -53,8 +68,17 @@ const html = `
     </style>
   </head>
   <body>
-    <section>
-      Hello from Render!
+  <h1>Interactive VN HUD</h1>
+    <section class="bar">
+ 	<iframe src="https://widgets.streamelements.com/host/640510a977ccc31338e95181/91a1a5e7-814f-4362-b578-8f4a543ac63c/epPBvwhIyImRxQFn0ZWH0sBN_D01Dt232Zrrg3EEx0eSER_p" style="border:none;height:300px;width:600px;" title="Story Bar"></iframe> 
+    </section>
+    <section class="login">
+    Welcome! Please enter your display name here:
+    <form>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+    <button type="button" onclick="alert('YEAHHHHH')"> Confirm</button>
+    </form>
     </section>
   </body>
 </html>
