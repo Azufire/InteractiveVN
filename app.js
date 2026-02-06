@@ -10,7 +10,7 @@ const sitePass = "Kawoo123"
 server.keepAliveTimeout = 120 * 1000;
 server.headersTimeout = 120 * 1000;
 
-import html from "../index.html";
+import html from "./index.html";
 
 function login(username, password)
 {
