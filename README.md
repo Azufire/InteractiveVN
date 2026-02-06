@@ -1,3 +1,1 @@
-hi chat idk what im doing
-CHAT IF YOU"RE READING THIS
-YOU ARE BUILDING ON RENDER WITH NODE.JS REMEMBER WHO YOU ARE
+HTML/CSS project using Render and Node.js to host collaborate overlay elements.
