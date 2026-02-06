@@ -2,12 +2,12 @@
 <html>
   <head>
     <title>Interactive VN HUD</title>
-    <script src="jquery-3.7.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
     $(document).ready(function(){
       $("#loginButton").click(function(){
-        if($("input#password").val() === "test123"){
+        if($("input#password").val() === "123"){
           alert("right");
           $("#login").hide();
         } else {
@@ -68,6 +68,7 @@
     <form>
     <label for="username">Username:</label>
     <input type="text" id="username" name="username">
+    <label for="password">Password:</label>
     <input type="text" id="password" name="password">
     <button id="loginButton" type="button">Confirm</button>
     </form>
