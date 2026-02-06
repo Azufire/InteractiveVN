@@ -7,9 +7,9 @@
     <script>
     $(document).ready(function(){
       $("#loginButton").click(function(){
-        alert("test");
-        if(password === SITEPASS){
-          $("login").hide();
+        if($("input#password").val() === SITEPASS){
+          alert("right");
+          $("#login").hide();
         } else {
           alert("Your password is incorrect!");
         }
@@ -63,7 +63,7 @@
     <section class="bar">
  	<iframe src="https://widgets.streamelements.com/host/640510a977ccc31338e95181/91a1a5e7-814f-4362-b578-8f4a543ac63c/epPBvwhIyImRxQFn0ZWH0sBN_D01Dt232Zrrg3EEx0eSER_p" style="border:none;height:300px;width:600px;" title="Story Bar"></iframe> 
     </section>
-    <section class="login">
+    <section class="login" id="login">
     Welcome! Please enter your display name here:
     <form>
     <label for="username">Username:</label>
