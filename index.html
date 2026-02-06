@@ -6,10 +6,11 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
     $(document).ready(function(){
+      $("#controls").hide();
       $("#loginButton").click(function(){
         if($("input#password").val() === "123"){
-          alert("right");
           $("#login").hide();
+          $("#controls").show();
         } else {
           alert("Your password is incorrect!");
         }
@@ -56,6 +57,15 @@
         margin-right: -50%;
         transform: translate(-50%, -50%);
       }
+      section.controls {
+        border-radius: 1em;
+        padding: 1em;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%);
+      }
     </style>
   </head>
   <body>
@@ -72,6 +82,16 @@
     <input type="text" id="password" name="password">
     <button id="loginButton" type="button">Confirm</button>
     </form>
+    </section>
+    <section class="controls" id="controls">
+      <p>Control Panel</p>
+      <form>
+        <label for="addVal">Add Value:</label>
+        <input type="num" id="addVal" name="addVal" size="5">
+        <label for="setVal">Set Value:</label>
+        <input type="num" id="setVal" name="setVal" size="5">
+        <button id="submitVal" type="button">Submit</button>
+      </form>
     </section>
   </body>
 </html>
