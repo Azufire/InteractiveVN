@@ -1,9 +1,7 @@
-const sitePass = "Kawoo123"
-
 function login(username, password)
 {
     alert(test);
-  if (password === sitePass){
+  if (password === SITEPASS){
     alert("TEST");
   } else{
     alert("WRONG");
