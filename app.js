@@ -5,8 +5,6 @@ const port = process.env.PORT || 3001;
 app.get("/", (req, res) => res.type('html').send(html));
 
 const server = app.listen(port, () => console.log(`App listening on port ${port}!`));
-const sitePass = "Kawoo123"
-
 server.keepAliveTimeout = 120 * 1000;
 server.headersTimeout = 120 * 1000;
 
@@ -79,6 +77,7 @@ const html = `
     <form>
     <label for="username">Username:</label>
     <input type="text" id="username" name="username">
+    <input type="text" id="password" name="password">
     <button type="button" onclick="login(username,password);"> Confirm</button>
     </form>
     </section>
