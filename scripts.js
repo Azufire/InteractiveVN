@@ -1,4 +1,4 @@
-function login(username, password)
+export function login(username, password)
 {
     alert(test);
   if (password === SITEPASS){
