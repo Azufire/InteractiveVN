@@ -24,7 +24,7 @@ const html = `
         });
       }, 500);
     </script>
-    <script src="./scripts.js" defer></script>
+    <script src="scripts.js"></script>
     <style>
       @import url("https://p.typekit.net/p.css?s=1&k=vnd5zic&ht=tk&f=39475.39476.39477.39478.39479.39480.39481.39482&a=18673890&app=typekit&e=css");
       @font-face {
