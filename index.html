@@ -4,20 +4,17 @@
     <title>Interactive VN HUD</title>
     <script src="jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <script type="text/javascript">
-      $(function login(username, password){
-          alert("ping");
-      });
-    </script>
     <script>
-      setTimeout(() => {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.5 },
-          disableForReducedMotion: true
-        });
-      }, 500);
+    $(document).ready(function(){
+      $("#loginButton").click(function(){
+        alert("test");
+        if(password === SITEPASS){
+          $("login").hide();
+        } else {
+          alert("Your password is incorrect!");
+        }
+      });
+    });
     </script>
     <style>
       @import url("https://p.typekit.net/p.css?s=1&k=vnd5zic&ht=tk&f=39475.39476.39477.39478.39479.39480.39481.39482&a=18673890&app=typekit&e=css");
@@ -72,7 +69,7 @@
     <label for="username">Username:</label>
     <input type="text" id="username" name="username">
     <input type="text" id="password" name="password">
-    <button type="button" onclick="login(username,password);"> Confirm</button>
+    <button id="loginButton" type="button" onclick="checkLogin(username,password);"> Confirm</button>
     </form>
     </section>
   </body>
