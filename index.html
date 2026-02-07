@@ -4,18 +4,30 @@
     <title>Interactive VN HUD</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script type="text/javascript">
+      async function hashString(inputString) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(inputString); 
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data); 
+
+        const hashArray = Array.from(new Uint8Array(hashBuffer)); 
+        const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join(''); 
+
+        return hashHex;
+      }
+	  </script>
     <script>
-    $(document).ready(function(){
-      $("#controls").hide();
-      $("#loginButton").click(function(){
-        if($("input#password").val() === "123"){
-          $("#login").hide();
-          $("#controls").show();
-        } else {
-          alert("Your password is incorrect!");
-        }
+      $(document).ready(function(){
+        $("#controls").hide();
+        $("#loginButton").click(function(){
+          if($("input#password").val() === "123"){
+            $("#login").hide();
+            $("#controls").show();
+          } else {
+            alert("Your password is incorrect!");
+          }
       });
-    });
+      });
     </script>
     <style>
       @import url("https://p.typekit.net/p.css?s=1&k=vnd5zic&ht=tk&f=39475.39476.39477.39478.39479.39480.39481.39482&a=18673890&app=typekit&e=css");
