@@ -86,10 +86,14 @@
     <section class="controls" id="controls">
       <p>Control Panel</p>
       <form>
-        <label for="addVal">Add Value:</label>
-        <input type="num" id="addVal" name="addVal" size="5">
-        <label for="setVal">Set Value:</label>
-        <input type="num" id="setVal" name="setVal" size="5">
+        <label for="changeType">Type:</label>
+        <select name="changeType" id="changeType">
+          <option value="Add">Add</option>
+          <option value="Sub">Sub</option>
+          <option value="Set">Set</option>
+        </select>
+        <label for="amount">Set Value:</label>
+        <input type="num" id="amount" name="amount" size="5">
         <button id="submitVal" type="button">Submit</button>
       </form>
     </section>
