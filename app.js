@@ -1,7 +1,8 @@
-import mysql from "mysql2";
-import express from "express";
-import checkAPIs from 'express-validator/check';
-const {body, matchedData, validationResult} = checkAPIs;
+import mysql from 'mysql2';
+import express from 'express';
+import Module from "node:module";
+const require = Module.createRequire(import.meta.url);
+const {body, matchedData, validationResult} = require('express-validator');
 const __dirname = import.meta.dirname;
 const app = express();
 const port = process.env.PORT || 3001;
@@ -44,7 +45,7 @@ const pool = mysql.createPool({
     host: process.env.DBHOST,
     user: process.env.DBUSER,
     password: process.env.DBPASS,
-    database: 'History_Log'
+    database: process.env.DBNAME
 }).promise();
 
 //hash env variable SITEPASS, set database value, run on deployment startup to ensure pass is updated
