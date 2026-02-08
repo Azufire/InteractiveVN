@@ -1,5 +1,6 @@
 import mysql from 'mysql2'
 import express from "express";
+const __dirname = import.meta.dirname;
 const app = express();
 const port = process.env.PORT || 3001;
 //deploy express app with main page html
