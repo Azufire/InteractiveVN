@@ -6,7 +6,7 @@ const {body, matchedData, validationResult} = require('express-validator');
 const __dirname = import.meta.dirname;
 const app = express();
 const port = process.env.PORT || 3001;
-const NotPassword = process.env.SITEPASS;
+var NotPassword = process.env.SITEPASS;
 
 //function to hash given sting (password) with SHA-256
     async function hashString(inputString) {
