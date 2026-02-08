@@ -10,9 +10,9 @@ server.headersTimeout = 120 * 1000;
 
 //create connection pool for MySQL database at AWS
 const pool = mysql.createPool({
-    host: 'interactivevn.cxwwweeoqhzq.us-west-1.rds.amazonaws.com',
-    user: 'xpquery',
-    password:'letmeinpls',
+    host: process.env.DBHOST,
+    user: process.env.DBUSER,
+    password: process.env.DBPASS,
     database: 'History_Log'
 }).promise();
 
