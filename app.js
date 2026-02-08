@@ -1,8 +1,37 @@
 import mysql from 'mysql2'
 import express from "express";
+import {body, matchedData, validationResult} from 'express-validator';
 const __dirname = import.meta.dirname;
 const app = express();
 const port = process.env.PORT || 3001;
+const NotPassword = SITEPASS;
+
+//function to hash given sting (password) with SHA-256
+    async function hashString(inputString) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(inputString); 
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data); 
+
+    const hashArray = Array.from(new Uint8Array(hashBuffer)); 
+    const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join(''); 
+
+    return hashHex;
+    }
+
+//Parse login attempts - sanatize/validate inputs, hash and compare to password hash; allow entry if successful, error if false
+app.get("/in",body("username", "password").trim().isLength({ min: 1 }).withMessage("Invalid input detected. Please check your fields.").escape(), (req, res) => {
+    const errors = validationResult(req);
+    if(errors.isEmpty()) {
+        const testPass = matchedData(req);
+        if(testPass === NotPassword) {
+            return res.send("Success!");
+        } else {
+            return res.send("Password does not match!");
+        }
+    }
+    res.send({errors: result.array()});
+});
+
 //deploy express app with main page html
 app.get("/", (req, res) => res.sendFile(__dirname + '/index.html'));
 const server = app.listen(port, () => console.log(`App listening on port ${port}!`));
@@ -17,23 +46,11 @@ const pool = mysql.createPool({
     database: 'History_Log'
 }).promise();
 
-//function to hash given sting (password) with SHA-256
-    async function hashString(inputString) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(inputString); 
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data); 
-
-    const hashArray = Array.from(new Uint8Array(hashBuffer)); 
-    const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join(''); 
-
-    return hashHex;
-    }
-
 //hash env variable SITEPASS, set database value, run on deployment startup to ensure pass is updated
 async function setPass() {
-    const passQuery = "UPDATE CODE SET pass='".concat(await hashString(process.env.SITEPASS), "'");
+    var pass = await hashString(process.env.SITEPASS);
+    const passQuery = "UPDATE CODE SET pass='".concat(pass, "'");
     const result = await pool.query(passQuery);
-    console.log(result);
+    return pass;
 }
-
-setPass();
+NotPassword = await setPass();
