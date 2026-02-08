@@ -1,7 +1,7 @@
 import mysql from "mysql2";
 import express from "express";
-import validator from "express-validator";
-const {body, matchedData, validationResult} = validator;
+import checkAPIs from 'express-validator/check';
+const {body, matchedData, validationResult} = checkAPIs;
 const __dirname = import.meta.dirname;
 const app = express();
 const port = process.env.PORT || 3001;
