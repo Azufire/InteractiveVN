@@ -20,8 +20,9 @@ var NotPassword = process.env.SITEPASS;
     }
 
 //Parse login attempts - sanatize/validate inputs, hash and compare to password hash; allow entry if successful, error if false
-app.get("/in",body("username", "password").trim().isLength({ min: 1 }).withMessage("Invalid input detected. Please check your fields.").escape(), (req, res) => {
+app.post("/in",body("username", "password").trim().isLength({ min: 1 }).withMessage("Invalid input detected. Please check your fields.").escape(), (req, res) => {
     const errors = validationResult(req);
+    console.log("login form recieved");
     if(errors.isEmpty()) {
         const testPass = matchedData(req);
         if(testPass === NotPassword) {
