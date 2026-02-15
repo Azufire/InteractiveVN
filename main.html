@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Interactive VN HUD</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
       @import url("https://p.typekit.net/p.css?s=1&k=vnd5zic&ht=tk&f=39475.39476.39477.39478.39479.39480.39481.39482&a=18673890&app=typekit&e=css");
       @font-face {
@@ -33,7 +34,7 @@
         margin-right: -50%;
         transform: translate(-50%, -50%);
       }
-      section.login {
+      section.controls {
         border-radius: 1em;
         padding: 1em;
         position: absolute;
@@ -49,15 +50,19 @@
     <section class="bar">
  	<iframe src="https://widgets.streamelements.com/host/640510a977ccc31338e95181/91a1a5e7-814f-4362-b578-8f4a543ac63c/epPBvwhIyImRxQFn0ZWH0sBN_D01Dt232Zrrg3EEx0eSER_p" style="border:none;height:300px;width:600px;" title="Story Bar"></iframe> 
     </section>
-    <section class="login" id="login">
-    Welcome! Please enter your display name here:
-    <form action="/in" method="POST">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username">
-    <label for="password">Password:</label>
-    <input type="text" id="password" name="password">
-    <button id="loginButton">Confirm</button>
-    </form>
+    <section class="controls" id="controls">
+      <p>Control Panel</p>
+      <form>
+        <label for="changeType">Type:</label>
+        <select name="changeType" id="changeType">
+          <option value="Add">Add</option>
+          <option value="Sub">Sub</option>
+          <option value="Set">Set</option>
+        </select>
+        <label for="amount">Set Value:</label>
+        <input type="num" id="amount" name="amount" size="5">
+        <button id="submitVal" type="button">Submit</button>
+      </form>
     </section>
   </body>
 </html>

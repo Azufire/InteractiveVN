@@ -26,9 +26,9 @@ app.post("/in",body("username", "password").trim().isLength({ min: 1 }).withMess
     if(result.isEmpty()) {
         const testPass = matchedData(req);
         if(testPass === NotPassword) {
-            return res.send("Success!");
+            return res.sendFile(__dirname + '/main.html');
         } else {
-            return res.send("Password does not match!");
+            return res.end("Password does not match!");
         }
     }
     res.send({errors: result.array()});
