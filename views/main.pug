@@ -66,3 +66,26 @@ html
           type="num"
           )
         button#submitVal(type="button") Submit
+
+    h1 History Log
+
+    if tableData && tableData.length > 0
+      table
+        thead
+          tr
+            // Assuming your table has 'id' and 'name' columns, adapt as needed
+            th Change_ID
+            th Username 
+            th Change_Type 
+            th Amount
+        tbody
+          // Iterate over the data passed from the Express route
+          each row in tableData
+            tr
+              td= row.change_id
+              td= row.username 
+              td= row.change_type 
+              td= row.amount
+    else
+      p No data found in the table.
+        

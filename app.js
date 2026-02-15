@@ -35,7 +35,8 @@ app.post("/in", body("username").trim().notEmpty().escape(),
     if(result.isEmpty()) {
         const testPass = await hashString(matchedData(req).password);
         if(testPass === NotPassword) {
-            return res.render("main", {user: matchedData(req).username});
+            const historyLog = await pool.query("SELECT * from History ORDER BY change_id DESC;");
+            return res.render("main", {user: matchedData(req).username, tableData: historyLog });
         } else {
             errmsg = "Password incorrect!";
         }
@@ -52,7 +53,7 @@ app.post("/in", body("username").trim().notEmpty().escape(),
 });
 
 //deploy express app with main page html
-app.get("/", (req, res) => res.sendFile(__dirname + '/index.html'));
+app.get("/", (req, res) => res.render("login"));
 const server = app.listen(port, () => console.log(`App listening on port ${port}!`));
 server.keepAliveTimeout = 120 * 1000;
 server.headersTimeout = 120 * 1000;
