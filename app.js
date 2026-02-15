@@ -20,7 +20,7 @@ var NotPassword = process.env.SITEPASS;
     }
 
 //Parse login attempts - sanatize/validate inputs, hash and compare to password hash; allow entry if successful, error if false
-app.post("/in", (req, res) => {
+app.post("./", (req, res) => {
     console.log(req);
     const result = validationResult(req);
     console.log("login request recieved");
@@ -33,7 +33,7 @@ app.post("/in", (req, res) => {
         }
     }
     res.send({errors: result.array()});
-    return res.end("Password not accepted");
+    return res.redirect('/');
 });
 
 //deploy express app with main page html
