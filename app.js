@@ -34,9 +34,8 @@ app.post("/in", body("username").trim().notEmpty().escape(),
     var errmsg = "";
     if(result.isEmpty()) {
         const testPass = await hashString(matchedData(req).password);
-        console.log(testPass);
         if(testPass === NotPassword) {
-            return res.sendFile(__dirname + '/main.html');
+            return res.render("main", {user: matchedData(req).username});
         } else {
             errmsg = "Password incorrect!";
         }
