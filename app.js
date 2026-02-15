@@ -20,7 +20,9 @@ var NotPassword = process.env.SITEPASS;
     }
 
 //Parse login attempts - sanatize/validate inputs, hash and compare to password hash; allow entry if successful, error if false
-app.post("/in",body("username", "password").trim().notEmpty().withMessage("No input detected. Please check your fields.").escape(), (req, res) => {
+app.post("/in",
+        body("username").trim().notEmpty().withMessage("No username detected. Please check your fields.").escape(),
+        body("password").trim().notEmpty().withMessage("No password detected. Please check your fields.").escape(), (req, res) => {
     const result = validationResult(req);
     console.log("login request recieved");
     if(result.isEmpty()) {
@@ -32,6 +34,7 @@ app.post("/in",body("username", "password").trim().notEmpty().withMessage("No in
         }
     }
     res.send({errors: result.array()});
+    return res.end("Password not accepted");
 });
 
 //deploy express app with main page html
