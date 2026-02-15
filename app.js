@@ -3,10 +3,18 @@ import express from 'express';
 import Module from "node:module";
 const require = Module.createRequire(import.meta.url);
 const {body, matchedData, validationResult} = require('express-validator');
+require('dotenv').config();
 const __dirname = import.meta.dirname;
 const app = express();
 const port = process.env.PORT || 3001;
-var NotPassword = process.env.SITEPASS;
+//setup express render settings
+app.set('views', __dirname + '/views');
+app.set('view engine', 'pug');
+
+//formatting middleware
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(express.static('public'));
 
 //function to hash given sting (password) with SHA-256
     async function hashString(inputString) {
@@ -20,20 +28,28 @@ var NotPassword = process.env.SITEPASS;
     }
 
 //Parse login attempts - sanatize/validate inputs, hash and compare to password hash; allow entry if successful, error if false
-app.post("./", (req, res) => {
-    console.log(req);
+app.post("/in", body("username").trim().notEmpty().escape(),
+                body("password").trim().notEmpty().escape(), async (req, res) => {
     const result = validationResult(req);
-    console.log("login request recieved");
+    var errmsg = "";
     if(result.isEmpty()) {
-        const testPass = matchedData(req);
+        const testPass = await hashString(matchedData(req).password);
+        console.log(testPass);
         if(testPass === NotPassword) {
             return res.sendFile(__dirname + '/main.html');
         } else {
-            return res.end("Password does not match!");
+            errmsg = "Password incorrect!";
+        }
+    } else {
+        for(const item of result.array()){
+            if(item.path === "username"){
+                errmsg += "invalid username ";
+            } else if (item.path === "password") {
+                errmsg += "invalid password";
+            }
         }
     }
-    res.send({errors: result.array()});
-    return res.redirect('/');
+    return res.render("login", {msg: errmsg});
 });
 
 //deploy express app with main page html
@@ -50,11 +66,5 @@ const pool = mysql.createPool({
     database: process.env.DBNAME
 }).promise();
 
-//hash env variable SITEPASS, set database value, run on deployment startup to ensure pass is updated
-async function setPass() {
-    var pass = await hashString(process.env.SITEPASS);
-    const passQuery = "UPDATE CODE SET pass='".concat(pass, "'");
-    const result = await pool.query(passQuery);
-    return pass;
-}
-NotPassword = await setPass();
+//hashes sitepass value, stores as string on server
+const NotPassword = await hashString(process.env.SITEPASS);
