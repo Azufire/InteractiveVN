@@ -23,7 +23,7 @@ html
         background: white;
         }
         label {
-        font-size: .5rem;
+        font-size: .75rem;
         }
         section.content {
         border-radius: 1em;
@@ -69,24 +69,21 @@ html
         style="border:none;height:300px;width:600px;" 
         src="https://widgets.streamelements.com/host/640510a977ccc31338e95181/91a1a5e7-814f-4362-b578-8f4a543ac63c/epPBvwhIyImRxQFn0ZWH0sBN_D01Dt232Zrrg3EEx0eSER_p"
         )
-      p Control Panel - #{user}
+      h2 Control Panel - #{user}
       section#controls.controls
-        form
+        form(action='/main' method='POST')
           label(for="changeType") Type: 
           select#changeType(name="changeType")
-            option(value="Add") Add
-            option(value="Sub") Sub
-            option(value="Set") Set
+            option(value="ADD") Add
+            option(value="SUB") Sub
+            option(value="SET") Set
           label(for="amount") !{' '}Set Value: 
-          input#amount(
-            size="5" 
-            name="amount" 
-            type="num"
-            )
-          button#submitVal(type="button" style='margin-left: 1em;') Submit
+          input#amount(size="5" name="amount" )
+          button#submitButton(style='margin-left: 1em;') Submit
+      p #{msg}
     section#controls.controls
     section#historyLog.historyLog
-      p History Log
+      h2 History Log
       table
         tr
           th Change ID

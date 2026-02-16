@@ -71,9 +71,28 @@ app.get('/main', async (req, res) => {
     return res.render("main", {user: cookie, tableData: historyLog[0]});
 });
 
-
 //parse post requests change bar: send data to sql database, update bar
-
+app.post("/main", body("amount").trim().notEmpty().isNumeric().escape(), async (req, res) => {
+    var errmsg = "";
+    const result = validationResult(req);
+    const changeVal = matchedData(req).amount;
+    if (result.isEmpty() && changeVal > 0){
+        try {
+            await pool.query
+            ("INSERT INTO History (username, change_type, amount) VALUES (?, ?, ?)",
+                [req.signedCookies.username, req.body.changeType, changeVal]
+            );
+            } catch (e) {
+                errmsg = "Something went wrong while connecting to the database...";
+                console.log(e);
+            }
+        } else {
+            errmsg = "Please use positive, nonzero values only!";
+    }
+    const historyLog = await pool.query("SELECT * from History ORDER BY change_id DESC;");
+    return res.render("main", 
+        {user: req.signedCookies.username, tableData: historyLog[0], msg: errmsg});
+})
 
 //deploy express app with main page html
 app.get("/", (req, res) => res.render("login"));
