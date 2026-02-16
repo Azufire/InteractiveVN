@@ -41,7 +41,11 @@ head
     }
   h1 Interactive VN HUD
   section.content
-    iframe(src='https://widgets.streamelements.com/host/640510a977ccc31338e95181/91a1a5e7-814f-4362-b578-8f4a543ac63c/epPBvwhIyImRxQFn0ZWH0sBN_D01Dt232Zrrg3EEx0eSER_p' style='border:none;height:300px;width:600px;' title='Story Bar')
+    iframe(
+      src='https://widgets.streamelements.com/host/640510a977ccc31338e95181/91a1a5e7-814f-4362-b578-8f4a543ac63c/epPBvwhIyImRxQFn0ZWH0sBN_D01Dt232Zrrg3EEx0eSER_p' 
+      style='border:none;height:110px;width:600px;overflow:hidden;' 
+      title='Story Bar'
+      )
     | Welcome! Please enter your display name here:
     section#login.login
     form(action='/in' method='POST')

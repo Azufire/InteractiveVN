@@ -15,15 +15,13 @@ html
         font-family: neo-sans;
         font-weight: 700;
         font-size: 2rem;
-        }
-        h1 {
         text-align: center;
         }
         body {
         background: white;
         }
         label {
-        font-size: .75rem;
+        font-size:.875rem;
         }
         section.content {
         border-radius: 1em;
@@ -66,22 +64,21 @@ html
     section.content
       iframe(
         title="Story Bar" 
-        style="border:none;height:300px;width:600px;" 
+        style="border:none;height:110px;width:600px;" 
         src="https://widgets.streamelements.com/host/640510a977ccc31338e95181/91a1a5e7-814f-4362-b578-8f4a543ac63c/epPBvwhIyImRxQFn0ZWH0sBN_D01Dt232Zrrg3EEx0eSER_p"
         )
       h2 Control Panel - #{user}
       section#controls.controls
         form(action='/main' method='POST')
-          label(for="changeType") Type: 
+          label(for="changeType") Answer Type: 
           select#changeType(name="changeType")
-            option(value="ADD") Add
-            option(value="SUB") Sub
-            option(value="SET") Set
-          label(for="amount") !{' '}Set Value: 
-          input#amount(size="5" name="amount" )
+            option(value="-1") ---
+            option(value="0") BAD
+            option(value="1") OK
+            option(value="2") GOOD
           button#submitButton(style='margin-left: 1em;') Submit
-      p #{msg}
-    section#controls.controls
+          p #{msg}
+      section#controls.controls
     section#historyLog.historyLog
       h2 History Log
       table
@@ -89,11 +86,22 @@ html
           th Change ID
           th Username 
           th Change Type 
-          th Amount
+          th Total
 
         each row in tableData
           tr
             td= row.change_id
             td= row.username 
             td= row.change_type 
-            td= row.amount
+            td= row.total
+          
+      section#controls.controls
+      p Do not use this panel unless you know what you're doing!
+        form(action='/set' method='POST')
+          label(for="changeType") 
+          select#changeType(name="changeType")
+            option(value="-1") ---
+            option(value="4") Set
+          label(for="total") !{' '}Set Total: 
+          input#total(size="5" name="total" )
+          button#submitButton(style='margin-left: 1em;') Submit
