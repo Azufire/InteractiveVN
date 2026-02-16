@@ -23,34 +23,31 @@ head
     label {
     font-size: .5rem;
     }
-    section.bar {
+    section.content {
     border-radius: 1em;
     padding: 1em;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
+    display:flex;
+    justify-content: center;
+    flex-direction:column;
+    align-items: center;
     }
     section.login {
     border-radius: 1em;
     padding: 1em;
-    position: absolute;
-    top: 40%;
+    top: 10%;
     left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
+    display:flex;
+    justify-content: center;
     }
-h1 Interactive VN HUD
-section.bar
-  iframe(src='https://widgets.streamelements.com/host/640510a977ccc31338e95181/91a1a5e7-814f-4362-b578-8f4a543ac63c/epPBvwhIyImRxQFn0ZWH0sBN_D01Dt232Zrrg3EEx0eSER_p' style='border:none;height:300px;width:600px;' title='Story Bar')
-section#login.login
-  | Welcome! Please enter your display name here:
-  form(action='/in' method='POST')
-    label(for='username') Username:
-    input#username(type='text' name='username' value='')
-    label(for='password') Password:
-    input#password(type='text' name='password' value='')
-    button#loginButton Confirm
-
-p #{msg}
+  h1 Interactive VN HUD
+  section.content
+    iframe(src='https://widgets.streamelements.com/host/640510a977ccc31338e95181/91a1a5e7-814f-4362-b578-8f4a543ac63c/epPBvwhIyImRxQFn0ZWH0sBN_D01Dt232Zrrg3EEx0eSER_p' style='border:none;height:300px;width:600px;' title='Story Bar')
+    | Welcome! Please enter your display name here:
+    section#login.login
+    form(action='/in' method='POST')
+      label(for='username') Username: 
+      input#username(type='text' name='username' value='') 
+      label(for='password') !{' '} Password: 
+      input#password(type='text' name='password' value='')
+      button#loginButton Confirm
+    p #{msg}

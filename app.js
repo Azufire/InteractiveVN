@@ -3,6 +3,7 @@ import express from 'express';
 import Module from "node:module";
 const require = Module.createRequire(import.meta.url);
 const {body, matchedData, validationResult} = require('express-validator');
+const cookieParser = require('cookie-parser')
 require('dotenv').config();
 const __dirname = import.meta.dirname;
 const app = express();
@@ -15,6 +16,7 @@ app.set('view engine', 'pug');
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static('public'));
+app.use(cookieParser(process.env.COOKIE));
 
 //function to hash given sting (password) with SHA-256
     async function hashString(inputString) {
@@ -27,7 +29,7 @@ app.use(express.static('public'));
     return hashHex;
     }
 
-//Parse login attempts - sanatize/validate inputs, hash and compare to password hash; allow entry if successful, error if false
+//Parse login attempts - sanatize/validate inputs, hash and compare to password hash; create cookie and redirect if true, errormsg and return if false
 app.post("/in", body("username").trim().notEmpty().escape(),
                 body("password").trim().notEmpty().escape(), async (req, res) => {
     const result = validationResult(req);
@@ -35,22 +37,43 @@ app.post("/in", body("username").trim().notEmpty().escape(),
     if(result.isEmpty()) {
         const testPass = await hashString(matchedData(req).password);
         if(testPass === NotPassword) {
-            const historyLog = await pool.query("SELECT * from History ORDER BY change_id DESC;");
-            return res.render("main", {user: matchedData(req).username, tableData: historyLog });
+            res.cookie('username',matchedData(req).username, {httpOnly:true, signed: true});
+            return res.redirect('/main');
         } else {
             errmsg = "Password incorrect!";
         }
     } else {
+        var longErr = false;
         for(const item of result.array()){
             if(item.path === "username"){
-                errmsg += "invalid username ";
+                errmsg += "Invalid username ";
+                longErr = true;
             } else if (item.path === "password") {
-                errmsg += "invalid password";
+                if (longErr){
+                    errmsg += "and password";
+                } else {
+                    errmsg += "Invalid password";
+                }
+
             }
         }
     }
     return res.render("login", {msg: errmsg});
 });
+
+//redirect for main controls page: check for cookie, then query for table, then render view
+app.get('/main', async (req, res) => {
+    const cookie = req.signedCookies.username;
+    if (cookie == null){
+        return res.redirect('/');
+    }
+    const historyLog = await pool.query("SELECT * from History ORDER BY change_id DESC;");
+    return res.render("main", {user: cookie, tableData: historyLog[0]});
+});
+
+
+//parse post requests change bar: send data to sql database, update bar
+
 
 //deploy express app with main page html
 app.get("/", (req, res) => res.render("login"));
