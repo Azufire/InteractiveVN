@@ -4,5 +4,5 @@ Framework details:
 
 Deploy: Node.js/Express
 Main Language: HTML/Javascript
-Libraries: SubtleCrypto, Express-Validator, MySQL2, dotenv, Pug, cookie-parser
+Packages: SubtleCrypto, Express-Validator, MySQL2, Dotenv, Pug, Cookie-Parser, Path
 Database: AWS - RDS (MySQL)

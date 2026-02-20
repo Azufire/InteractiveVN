@@ -3,7 +3,8 @@ import express from 'express';
 import Module from "node:module";
 const require = Module.createRequire(import.meta.url);
 const {body, matchedData, validationResult} = require('express-validator');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const path = require('path');
 require('dotenv').config();
 const __dirname = import.meta.dirname;
 const port = process.env.PORT || 3001;
@@ -15,7 +16,8 @@ app.set('view engine', 'pug');
 //formatting middleware
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/imgs', express.static(__dirname  + '/imgs'));
 app.use(cookieParser(process.env.COOKIE));
 
 //setting up arrays for referencing answer values - moved up for easy changing
@@ -32,6 +34,11 @@ const typeVals = [process.env.VAL_BAD, process.env.VAL_OK, process.env.VAL_GOOD]
     const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join(''); 
     return hashHex;
     }
+
+//does loading a bar image work??
+app.get('/bar',  (req, res) => {
+    return res.render("img(src='/imgs/tempbar.png')");
+});
 
 //Parse login attempts - sanatize/validate inputs, hash/compare password hashes; create cookie->redirect if true, errormsg and return if false
 app.post("/in", body("username").trim().notEmpty().escape(),
