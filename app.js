@@ -9,6 +9,7 @@ require('dotenv').config();
 const __dirname = import.meta.dirname;
 const port = process.env.PORT || 3001;
 const app = express();
+const barMax = Number(process.env.BAR_MAX);
 //setup express render settings
 app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
@@ -35,9 +36,11 @@ const typeVals = [process.env.VAL_BAD, process.env.VAL_OK, process.env.VAL_GOOD]
     return hashHex;
     }
 
-//does loading a bar image work??
-app.get('/bar',  (req, res) => {
-    return res.render("img(src='/imgs/tempbar.png')");
+//load in bar amount: query db to check current value, divide by max value and load page with fillVal as percentage
+app.get('/bar', async (req, res) => {
+    const currentVal = (await pool.query("SELECT total FROM History ORDER BY change_id DESC LIMIT 1;"))[0][0].total;
+    const fillVal = Math.max(0, (currentVal / barMax) * 100);
+    return res.render("bar", {fillVal:fillVal});
 });
 
 //Parse login attempts - sanatize/validate inputs, hash/compare password hashes; create cookie->redirect if true, errormsg and return if false
