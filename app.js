@@ -21,26 +21,37 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/imgs', express.static(__dirname  + '/imgs'));
 app.use(cookieParser(process.env.COOKIE));
 
-//setting up arrays for referencing answer values - moved up for easy changing
+//setting up arrays for referencing answer values
 const typeNames = ["BAD", "OK", "GOOD"];
 const typeVals = [process.env.VAL_BAD, process.env.VAL_OK, process.env.VAL_GOOD];
 
 //function to hash given sting (password) with SHA-256
-    async function hashString(inputString) {
+async function hashString(inputString) {
     const encoder = new TextEncoder();
     const data = encoder.encode(inputString); 
     const hashBuffer = await crypto.subtle.digest('SHA-256', data); 
-
     const hashArray = Array.from(new Uint8Array(hashBuffer)); 
     const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join(''); 
     return hashHex;
-    }
+}
 
-//load in bar amount: query db to check current value, divide by max value and load page with fillVal as percentage
-app.get('/bar', async (req, res) => {
+//function to get current bar value: queries db, returns percentage value
+async function getBar() {
     const currentVal = (await pool.query("SELECT total FROM History ORDER BY change_id DESC LIMIT 1;"))[0][0].total;
-    const fillVal = Math.max(0, (currentVal / barMax) * 100);
-    return res.render("bar", {fillVal:fillVal});
+    const percentage = Math.max(0, (currentVal / barMax) * 100);
+    return percentage;
+};
+
+//route called by bar to update percentage
+app.get("/get-bar", async (req, res) => {
+    const percentage = await getBar();
+    res.json({ percentage: percentage });
+});
+
+//route to render in bar with percentage variable
+app.get('/bar', async (req, res) => {
+    const percentage = await getBar();
+    return res.render("bar", {fillVal: percentage});
 });
 
 //Parse login attempts - sanatize/validate inputs, hash/compare password hashes; create cookie->redirect if true, errormsg and return if false

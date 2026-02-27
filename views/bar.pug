@@ -1,8 +1,22 @@
 doctype html
 head
+  script(type='text/javascript').
+    async function updateBarPercentage() {
+      let response = await fetch("/get-bar");
+      let json = await response.json();
+      let percentage = json.percentage;
+      let bar = document.getElementsByClassName("bar-fill");
+      bar.style = "width: " + percentage + "%";
+    }
+  script(type='text/javascript').
+     window.onload = function loop() {
+        updateBarPercentage()
+        setTimeout(loop, 3_000);
+    }
   style.
     body {
     background-color: transparent;
+    
     }
 
     .progress-bar {
