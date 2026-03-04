@@ -1,24 +1,25 @@
 doctype html
 head
   title Interactive VN HUD
+  link(href='https://fonts.googleapis.com/css?family=Nunito Sans' rel='stylesheet')
   style.
-    @import url("https://p.typekit.net/p.css?s=1&k=vnd5zic&ht=tk&f=39475.39476.39477.39478.39479.39480.39481.39482&a=18673890&app=typekit&e=css");
     @font-face {
-    font-family: "neo-sans";
-    src: url("https://use.typekit.net/af/00ac0a/00000000000000003b9b2033/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff2"), url("https://use.typekit.net/af/00ac0a/00000000000000003b9b2033/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff"), url("https://use.typekit.net/af/00ac0a/00000000000000003b9b2033/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("opentype");
+    font-family: 'Nunito Sans', sans-serif;
     font-style: normal;
     font-weight: 700;
     }
     html {
-    font-family: neo-sans;
+    font-family: 'Nunito Sans';
     font-weight: 700;
     font-size: 2rem;
+    color: #9e6a5c;
     }
     h1 {
+    background: #ede0dc;
     text-align: center;
     }
     body {
-    background: white;
+    background:white;
     }
     label {
     font-size: .5rem;
@@ -31,6 +32,11 @@ head
     flex-direction:column;
     align-items: center;
     }
+    section.textbox {
+      background:#ede0dc;
+      border-radius: .5em;
+      padding: 1em;
+    }
     section.login {
     border-radius: 1em;
     padding: 1em;
@@ -39,6 +45,21 @@ head
     display:flex;
     justify-content: center;
     }
+    #loginButton {
+      margin-left: 10px;
+      color: #9e6a5c;
+      border-color: #9e6a5c65;
+      background:#ede0dc;
+      border-style:double;
+    }
+    form {
+      text-align: center;
+    }
+    .textbox {
+      border:none;
+      padding:.2em;
+    }
+
   h1 Interactive VN HUD
   section.content
     iframe(
@@ -46,12 +67,13 @@ head
       style='border:none;height:250px;width:810px;overflow:hidden;'
       title='Progress Bar'
       )
-    | Welcome! Please enter your display name here:
-    section#login.login
-    form(action='/in' method='POST')
-      label(for='username') Username: 
-      input#username(type='text' name='username' value='') 
-      label(for='password') !{' '} Password: 
-      input#password(type='text' name='password' value='')
-      button#loginButton Confirm
-    p #{msg}
+    section.textbox
+      | Welcome! Please enter your name and the site password:
+      section#login.login
+      form(action='/in' method='POST')
+        label(for='username') Username: 
+        input#username.textbox(type='text' name='username' value='') 
+        label(for='password') !{' '} Password: 
+        input#password.textbox(type='text' name='password' value='')
+        button#loginButton Confirm
+      p #{msg}

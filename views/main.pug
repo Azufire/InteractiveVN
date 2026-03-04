@@ -2,62 +2,93 @@ doctype html
 html
   head
     title Interactive VN HUD
+    link(href='https://fonts.googleapis.com/css?family=Nunito Sans' rel='stylesheet')
     style.
-      @import url("https://p.typekit.net/p.css?s=1&k=vnd5zic&ht=tk&f=39475.39476.39477.39478.39479.39480.39481.39482&a=18673890&app=typekit&e=css");
-        @font-face {
-        font-family: "neo-sans";
-        src: url("https://use.typekit.net/af/00ac0a/00000000000000003b9b2033/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff2"), url("https://use.typekit.net/af/00ac0a/00000000000000003b9b2033/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff"), url("https://use.typekit.net/af/00ac0a/00000000000000003b9b2033/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("opentype");
-        font-style: normal;
-        font-weight: 700;
-        }
-        html {
-        font-family: neo-sans;
-        font-weight: 700;
-        font-size: 2rem;
-        text-align: center;
-        }
-        body {
-        background: white;
-        }
-        label {
-        font-size:.875rem;
-        }
-        section.content {
-        border-radius: 1em;
-        padding: 1em;
-        display:flex;
-        justify-content: center;
-        flex-direction:column;
-        align-items: center;
-        }
-        section.controls {
-        padding: .1em;
-        left: 50%;
-        display:flex;
-        justify-content: center;
-        }
-        section.historyLog {
-        border-radius: 1em;
-        padding: 1em;
-        display:flex;
-        justify-content: center;
-        flex-direction:column;
-        align-items: center;          
-        }
-        table {
-          font-size: .5rem;
-          border-collapse: collapse;
-          border-spacing: 0;
-          width:50%; 
-          border: 1px solid #ddd;
-        }
-        th, td {
-        text-align: left;
-        padding: 1em;
-        }
-        tr:nth-child(even) {
-        background-color: #f2f2f2;
-        }
+      @font-face {
+      font-family: 'Nunito Sans', sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      }
+      html {
+      font-family: 'Nunito Sans';
+      font-weight: 700;
+      font-size: 2rem;
+
+      }
+      * {
+        color: #9e6a5c;
+      }
+      h1 {
+      background: #ede0dc;
+      text-align: center;
+      }
+      body {
+      background: white;
+      }
+      label {
+      font-size:.875rem;
+      }
+      section.content {
+      border-radius: 1em;
+      padding: 1em;
+      display:flex;
+      flex-direction:column;
+      align-items: center;
+      justify-content: space-around;
+      }
+      section.controls {
+      padding: .1em;
+      left: 50%;
+      display:flex;
+      }
+      section.warning {
+        padding: .5em;
+        background-color: #ede0dc;
+      }
+      section.historyLog {
+      border-radius: 1em;
+      padding: 1em;
+      display:flex;
+      justify-content: center;
+      flex-direction:column;
+      align-items: center;          
+      }
+      table {
+        font-size: .5rem;
+        border-collapse: collapse;
+        border-spacing: 0;
+        width:100%; 
+        border: 1px solid #ddd;
+      }
+      th, td {
+      text-align: left;
+      padding: 1em;
+      }
+      tr:nth-child(even) {
+      background-color: #f5eeeb;
+      }
+      .changeType {
+      background-color: #ede0dc;
+      border-radius: 4px;
+      padding:.5em;
+      border:none;
+      align-items:center;
+      justify-content: space-between;
+      cursor:pointer;
+      }
+      .submitButton {
+        padding:.25em;
+        color: #9e6a5c;
+        border-color:#9e6a5c;
+        background:#ede0dc;
+        border: double;
+      }
+      #total {
+        padding: .5em;
+        border-radius:4px;
+        background-color:#ede0dc;
+        border: 1px solid #b3a2a2;
+      }
   body
     h1 Interactive VN HUD
     section.content
@@ -66,41 +97,43 @@ html
         style='border:none;height:250px;width:810px;overflow:hidden;'
         title='Progress Bar'
         )
-      h2 Control Panel - #{user}
+      h2 Welcome, #{user}!
+      h6 To increase the bar, simply select which answer type won and hit submit!
       section#controls.controls
         form(action='/main' method='POST')
           label(for="changeType") Answer Type: 
-          select#changeType(name="changeType")
+          select.changeType(name="changeType")
             option(value="-1") ---
             option(value="0") BAD
             option(value="1") OK
             option(value="2") GOOD
-          button#submitButton(style='margin-left: 1em;') Submit
-          p #{msg}
-      section#controls.controls
-    section#historyLog.historyLog
-      h2 History Log
-      table
-        tr
-          th Change ID
-          th Username 
-          th Change Type 
-          th Total
-
-        each row in tableData
+          button.submitButton(style='margin-left: 1em;') Submit
+      section.warning 
+        h4 #{msg}
+      section#historyLog.historyLog
+        h2 History Log
+        table
           tr
-            td= row.change_id
-            td= row.username 
-            td= row.change_type 
-            td= row.total
-          
-      section#controls.controls
-      p Do not use this panel unless you know what you're doing!
-        form(action='/set' method='POST')
-          label(for="changeType") 
-          select#changeType(name="changeType")
-            option(value="-1") ---
-            option(value="4") Set
-          label(for="total") !{' '}Set Total: 
-          input#total(size="5" name="total" )
-          button#submitButton(style='margin-left: 1em;') Submit
+            th Change ID
+            th Username 
+            th Change Type 
+            th Total
+
+          each row in tableData
+            tr
+              td= row.change_id
+              td= row.username 
+              td= row.change_type 
+              td= row.total
+            
+
+        p Do not use this panel unless you know what you're doing!
+        section.controls.controls
+          form(action='/set' method='POST')
+            label(for="changeType") 
+            select.changeType(name="changeType")
+              option(value="-1") ---
+              option(value="4") Set
+            label(for="total") !{' '}Set Total: 
+            input#total(size="5" name="total" )
+            button.submitButton(style='margin-left: 1em;') Submit
